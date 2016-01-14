@@ -2,47 +2,48 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TodoItem from './TodoItem';
 import TodoInput from './TodoInput';
+import TodoStore from './../stores/TodoStore';
 
-let todos = [
-  { completed: false, text: "Chips" },
-  { completed: false, text: "Crackers" },
-  { completed: false, text: "Hummus" },
-  { completed: false, text: "Carrots" }
-];
+function getTodoState() {
+  return {
+    todos: TodoStore.getAll()
+  };
+}
 
 class TodoApp extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = { todos: props.todos };
+    this.state = getTodoState();
 
-    this.removeTodo = this.removeTodo.bind(this);
+    this._onChange = this._onChange.bind(this);
+  }
+
+  componentDidMount() {
+    TodoStore.addChangeListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    TodoStore.removeChangeListener(this._onChange);
+  }
+
+  _onChange() {
+    this.setState(getTodoState());
   }
 
   renderTodos() {
     return (
       <ul className="todo-list">
         {this.state.todos.map((todo, i) => {
-          return <TodoItem key={i} text={todo.text} completed={todo.completed} onDelete={this.removeTodo.bind(i)}></TodoItem>;
+          return <TodoItem key={i} todo={todo}></TodoItem>;
         })}
       </ul>
     );
   }
 
-  addTodo(newTodo) {
-    this.setState({ todos: [...this.state.todos, newTodo] });
-  }
-
-  removeTodo(todoIndex) {
-    let tempTodos = this.state.todos.slice();
-    tempTodos.splice(todoIndex, 1);
-    this.setState({ todos: tempTodos });
-  }
-
   render() {
     return (
       <div>
-        <TodoInput onAdd={this.addTodo.bind(this)}></TodoInput>
+        <TodoInput></TodoInput>
         <div className="box">
           {this.renderTodos()}
         </div>
@@ -51,4 +52,4 @@ class TodoApp extends React.Component {
   }
 }
 
-ReactDOM.render(<TodoApp todos={todos} />, document.getElementById('app'));
+ReactDOM.render(<TodoApp />, document.getElementById('app'));

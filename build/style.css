@@ -1,5 +1,5 @@
 body {
-  background-color: #3b413e;
+  background-color: #21383E;
   font-family: 'Bitter', serif;
   color: #e7dc7d;
   font-size: 15pt
@@ -12,7 +12,7 @@ body {
 }
 
 .box {
-  background-color: #292e2b;
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   padding: 15px;
   margin: 20px 0;
@@ -25,7 +25,7 @@ body {
 input {
   border: 0;
   height: 30px;
-  background-color: #55605d;
+  background-color: rgba(170, 170, 170, 0.18);
   font-family: 'Bitter', serif;
   color: #e7dc7d;
   font-size: 15pt;
@@ -41,16 +41,21 @@ input:focus {
 #app .todo-list {
   list-style-type: none;
   margin: 0;
-  padding-left: 1.5em;
+  padding: 0;
 }
 
 #app .todo-list li {
   margin: 5px 0;
-  cursor: pointer;
   position: relative;
 }
 
-#app .todo-list li:before {
+.todo-list li p {
+  cursor: pointer;
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+#app .todo-list li p:before {
   content: "";
   display: inline-block;
   width: 1.1em;
@@ -59,11 +64,11 @@ input:focus {
   border-radius: 0.5em;
   box-sizing: border-box;
   position: absolute;
-  top: 0;
-  left: -1.5em;
+  top: 1px;
+  left: -5px;
 }
 
-#app .todo-list li.completed:before {
+#app .todo-list li.completed p:before {
   content: "";
   display: inline-block;
   width: 1.1em;
@@ -73,12 +78,14 @@ input:focus {
   border-radius: 0.5em;
   border-sizing: border-box;
   position: absolute;
-  top: 0;
-  left: -1.5em;
+  top: 1px;
+  left: -5px;
 }
 
 button.delete {
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
   background: none;
   color: rgba(170, 170, 170, 0.55);
   font-weight: bold;

@@ -1,29 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TodoActions from './../actions/TodoActions';
 
 class TodoItem extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { completed: props.completed };
     this.toggleCompleted = this.toggleCompleted.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
   }
 
   toggleCompleted(e) {
-    this.setState({completed: !this.state.completed});
+    TodoActions.toggleCompleted(this.props.todo.id);
   }
 
-  removeTodo(todo) {
-    this.props.onDelete(todo);
+  removeTodo(e) {
+    TodoActions.destroy(this.props.todo.id);
   }
 
   render() {
-    let className = this.state.completed ? 'completed' : '';
+    let className = this.props.todo.completed ? 'completed' : '';
 
     return (
-      <li className={className} onClick={this.toggleCompleted}>
-        <span>{this.props.text}</span>
+      <li className={className}>
+        <p onClick={this.toggleCompleted}>{this.props.todo.text}</p>
         <button className="delete" onClick={this.removeTodo}>&#x02A2F;</button>
       </li>
     );

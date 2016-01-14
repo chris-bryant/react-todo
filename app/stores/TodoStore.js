@@ -1,22 +1,57 @@
-import TodoDispatcher from 'TodoDispatcher';
+import TodoDispatcher from './../dispatcher/TodoDispatcher';
 import EventEmitter from 'events';
-import ActionTypes from './constants/actionTypes';
+import * as ActionTypes from './../constants/actionTypes';
+import assign from 'object-assign';
 
 let _todos = [];
+let CHANGE_EVENT = 'change';
 
-let TodoStore = assign({}, EventEmitter.prototype, {
+class TodoStore extends EventEmitter {
+  constructor() {
+    super();
+    this.dispatcherIndex = TodoDispatcher.register(function(payload) {
+      switch (payload.action) {
+        case ActionTypes.TODO_CREATE:
+          let text = payload.text.trim();
+          let id = _todos.length;
+
+          _todos[id] = { id, completed: false, text};
+          this.emitChange();
+          break;
+
+        case ActionTypes.TODO_DESTROY:
+          let tempTodos = _todos.slice();
+          tempTodos.splice(payload.id, 1);
+
+          _todos = tempTodos;
+          this.emitChange();
+          break;
+
+        case ActionTypes.TODO_TOGGLE_COMPLETED:
+          _todos[payload.id].completed = !_todos[payload.id].completed;
+          this.emitChange();
+          break;
+      }
+    }.bind(this));
+  }
+
   getAll() {
     return _todos;
   }
-});
 
-TodoDispatcher.register(function (action) {
-  switch (action.type) {
-    case ActionTypes.TODO_CREATE:
-      let text = action.text.trim();
-      _todos.push(text);
-      TodoStore.emitChange();
+  emitChange() {
+    this.emit(CHANGE_EVENT);
   }
-});
 
-export default TodoStore;
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback);
+  }
+
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  }
+}
+
+
+
+export default new TodoStore();

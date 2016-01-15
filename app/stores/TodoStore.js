@@ -10,6 +10,7 @@ class TodoStore extends EventEmitter {
   constructor() {
     super();
     this.dispatcherIndex = TodoDispatcher.register(function(payload) {
+      console.log(payload);
       switch (payload.action) {
         case ActionTypes.TODO_CREATE:
           let text = payload.text.trim();
@@ -21,7 +22,7 @@ class TodoStore extends EventEmitter {
 
         case ActionTypes.TODO_DESTROY:
           let tempTodos = _todos.slice();
-          tempTodos.splice(payload.id, 1);
+          delete tempTodos[payload.id];
 
           _todos = tempTodos;
           this.emitChange();

@@ -65,7 +65,7 @@ input:focus {
   box-sizing: border-box;
   position: absolute;
   top: 1px;
-  left: -5px;
+  left: 0;
 }
 
 #app .todo-list li.completed p:before {
@@ -79,7 +79,7 @@ input:focus {
   border-sizing: border-box;
   position: absolute;
   top: 1px;
-  left: -5px;
+  left: 0;
 }
 
 button.delete {

@@ -11,7 +11,7 @@ let TodoActions = {
 
   destroy: (id) => {
     TodoDispatcher.dispatch({
-      action: ActionTypes.TODO_DESTROY,
+      action: ActionTypes.TODO_DELETE,
       id: id
     });
   },

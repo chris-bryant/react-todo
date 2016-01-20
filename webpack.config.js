@@ -1,7 +1,8 @@
 module.exports = {
   context: __dirname + "/app",
   entry: [
-    "./components/TodoApp.jsx",
+    // "./components/TodoApp.jsx",
+      './app.jsx',
       'webpack/hot/dev-server',
       'webpack-dev-server/client?http://localhost:8080'
   ],

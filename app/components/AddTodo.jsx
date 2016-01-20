@@ -26,7 +26,7 @@ let AddTodo = ({ dispatch }) => {
   );
 };
 
-// Calling connect with on arguments automatically injects the dispatch method into the props.
+// Calling connect with no arguments automatically injects the dispatch method into the props.
 AddTodo = connect()(AddTodo);
 
 export default AddTodo;

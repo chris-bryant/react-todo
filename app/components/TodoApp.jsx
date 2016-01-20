@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoItem from './TodoItem';
+import TodoList from './TodoList';
 import TodoInput from './TodoInput';
 import TodoStore from './../stores/TodoStore';
+import TodoActions from './../actions/TodoActions';
 
 function getTodoState() {
   return {
@@ -30,22 +31,14 @@ class TodoApp extends React.Component {
     this.setState(getTodoState());
   }
 
-  renderTodos() {
-    return (
-      <ul className="todo-list">
-        {this.state.todos.map((todo, i) => {
-          return <TodoItem key={i} todo={todo}></TodoItem>;
-        })}
-      </ul>
-    );
-  }
-
   render() {
     return (
       <div>
-        <TodoInput></TodoInput>
+        <TodoInput />
         <div className="box">
-          {this.renderTodos()}
+          <TodoList todos={this.state.todos}
+            onTodoClick={id => TodoActions.toggleCompleted(id)}
+            onTodoDelete={id => TodoActions.destroy(id)}/>
         </div>
       </div>
     );

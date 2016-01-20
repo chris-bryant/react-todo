@@ -10,7 +10,6 @@ class TodoStore extends EventEmitter {
   constructor() {
     super();
     this.dispatcherIndex = TodoDispatcher.register(function(payload) {
-      console.log(payload);
       switch (payload.action) {
         case ActionTypes.TODO_CREATE:
           let text = payload.text.trim();
